@@ -10,9 +10,12 @@ dynCol.prototype = {
 		row[this.name] = ctr.val();
 	},
 	write: function (ctr, row) {
+		ctr.val(this.getNullSafeVal(row));
+	},
+	getNullSafeVal: function (row) {
 		var v = row[this.name];
 		if (v === undefined || v === null) v = "";
-		ctr.val(unescape(v));
+		return unescape(v);
 	},
 	onValidate: function (ctr, index, td, grid) {
 		if (!ctr.attr("disabled") && !$.trim(ctr.val())) {
@@ -25,7 +28,10 @@ dynCol.prototype = {
 		return td.find("input");
 	},
 	onCellCreated: function (ctr, idx, allowEdit) {
-		ctr.addClass(this.className);
+
+	},
+	onCellDataBound: function (ctr, row) {
+		
 	},
 	getDisplayText: function (ctr) {
 		return ctr.val();
